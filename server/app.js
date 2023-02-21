@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import storyRoutes from './routes/stories.js'; 
+import router from './routes/storyRoutes.js'; 
 
 // initialize the app with express, which is a node.js framework to create routing of the application
 const app = express();
@@ -14,13 +14,13 @@ app.use(bodyParser.urlencoded({ limit: "32mb", extended: true }));
 app.use(cors());
 
 // all the routes in storyRoutes will be prefixed with /stories (e.g., localhost:5001/stories)
-app.use("/stories", storyRoutes);
+app.use("/stories", router);
 
 
 /*************************** DATABASE CONNECTION ***************************/
 
 // connect app to the database at www.mongodb.com/cloud/atlas
-const MONGO_URI = "mongodb+srv://peinan:LIZHIsyr11@cluster0.z8etpbx.mongodb.net/?retryWrites=true&w=majority"
+const MONGO_URI = "mongodb+srv://peinan:learnmongodb@cluster0.z8etpbx.mongodb.net/?retryWrites=true&w=majority"
 const PORT = process.env.PORT || 5001;
 
 // function to connect to the database
@@ -38,6 +38,3 @@ connectDB();
 mongoose.connection.on("open", () => console.log("Connection to database has been established"));
 mongoose.connection.on("error", (err) => console.log(err));
 
-
-/*************************** CREATE ROUTES FOR BACKEND **********
- * *****************/

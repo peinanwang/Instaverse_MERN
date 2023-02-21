@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const storySchema = mongoose.Schema({
     caption: { type: String, required: true },
     username: { type: String, required: true },
-    userId: { type: String, required: true },
+    userId: { type: String },
     image : { type: String, required: true },
     tags: String,
     likes: { type: Number, default: 0 },
@@ -12,4 +12,6 @@ const storySchema = mongoose.Schema({
 });
 
 // create a model for the schema
+// first argument is the name of the model
+// second argument is the schema
 export default mongoose.model("Story", storySchema);
