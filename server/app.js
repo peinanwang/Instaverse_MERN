@@ -2,10 +2,12 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import dotenv from "dotenv";
 import router from './routes/storyRoutes.js'; 
 
 // initialize the app with express, which is a node.js framework to create routing of the application
 const app = express();
+dotenv.config();
 
 // set up body-parser so we can properly send and receive requests
 app.use(bodyParser.json({ limit: "32mb", extended: true }));
@@ -20,7 +22,7 @@ app.use("/stories", router);
 /*************************** DATABASE CONNECTION ***************************/
 
 // connect app to the database at www.mongodb.com/cloud/atlas
-const MONGO_URI = "mongodb+srv://peinan:learnmongodb@cluster0.z8etpbx.mongodb.net/?retryWrites=true&w=majority"
+const MONGO_URI = process.env.MONGO_URI;
 const PORT = process.env.PORT || 5001;
 
 // function to connect to the database

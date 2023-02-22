@@ -1,36 +1,44 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Card, Form, Input, Typography, Button } from 'antd';
-import { useDispatch } from 'react-redux';  
+import { useDispatch, useSelector } from 'react-redux';  
 import FileBase64 from 'react-file-base64';
 import styles from "./styles"
-import { createStory } from '../../actions/storyActions';
+import { createStory, updateStory } from '../../actions/storyActions';
 
 const { Title } = Typography;
 
-function StoryForm() {
+function StoryForm({ selectedId, setSelectedId }) {
   
-  const dispatch = useDispatch();
+  const story = useSelector((state) => selectedId ? state.stories.find(story => story._id === selectedId) : null);
 
-  // useForm is a hook that returns a form instance
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
 
   const onSubmit = (formValues) => {
-    console.log(formValues);
-    dispatch(createStory(formValues));
+    selectedId ?
+    dispatch(updateStory(selectedId, formValues))
+    : dispatch(createStory(formValues));
+
     reset();
   };
 
+  useEffect(() => {
+    if(story) {
+      form.setFieldsValue(story);
+    }
+  }, [story, form]);
+
   const reset = () => {
     form.resetFields();
-    //setSelectedId(null);
+    setSelectedId(null);
   }
 
   return (
     <Card 
       style={styles.card}
       title={
-        <Title level={4} style={styles.fromTitle}>
-          Create a new story
+        <Title level={4} style={styles.formTitle}>
+          {selectedId ? "Editing" : "Share" } a story
         </Title>
       }
     >
@@ -68,9 +76,17 @@ function StoryForm() {
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button type="primary" block htmlType="submit">
-            Share
+            {selectedId ? "Update" : "Share"}
           </Button>
         </Form.Item>
+
+        {!selectedId ? null :
+          <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+          <Button type="primary" block htmlType='button' danger onClick={reset}>
+            Discard
+          </Button>
+          </Form.Item>
+        }
 
       </Form>
     </Card>

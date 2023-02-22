@@ -15,6 +15,8 @@ const styles = {
         justifyContent: "center",
         alignItems: "center",
         zIndex: "1",
+        position: "sticky",
+        top: "0"
     },
 
     image: {
