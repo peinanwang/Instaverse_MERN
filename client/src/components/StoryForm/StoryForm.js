@@ -35,7 +35,7 @@ function StoryForm({ selectedId, setSelectedId }) {
 
   return (
     <Card 
-      style={styles.card}
+      style={styles.formCard}
       title={
         <Title level={4} style={styles.formTitle}>
           {selectedId ? "Editing" : "Share" } a story
